@@ -42,22 +42,22 @@ model.add(Conv2D(64, (3, 3), padding='same',
 model.add(Activation('relu'))
 model.add(Conv2D(128, (3, 3), name="second"))
 model.add(Activation('relu'))
-model.add(AveragePooling2D(pool_size=(1, 1)))
+model.add(MaxPooling2D(pool_size=(1, 1)))
 model.add(Dropout(0.2))
 
 model.add(Conv2D(128, (3, 3), padding='same', name="third"))
 model.add(Activation('relu'))
-model.add(AveragePooling2D(pool_size=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
 
 model.add(Conv2D(128, (3, 3), name="fourth"))
 model.add(Activation('relu'))
-model.add(AveragePooling2D(pool_size=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
 
 model.add(Conv2D(128, (3, 3), name="fifth"))
 model.add(Activation('relu'))
-model.add(AveragePooling2D(pool_size=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
 
 model.add(Flatten())
