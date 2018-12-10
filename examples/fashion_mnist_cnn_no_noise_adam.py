@@ -69,7 +69,7 @@ model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss=keras.losses.categorical_crossentropy,
-              optimizer="nadam",
+              optimizer="adam",
               metrics=['accuracy'])
 
 history = model.fit(x_train, y_train,
@@ -80,7 +80,7 @@ history = model.fit(x_train, y_train,
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
-#
+
 # plt.plot(history.history['acc'])
 # plt.plot(history.history['val_acc'])
 # plt.title('Model accuracy')

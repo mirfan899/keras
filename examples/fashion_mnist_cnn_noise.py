@@ -96,7 +96,7 @@ model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss=keras.losses.categorical_crossentropy,
-              optimizer="adam",
+              optimizer="nadam",
               metrics=['accuracy'])
 
 gaussian_noise = Gaussian()
@@ -121,4 +121,4 @@ print(history.history)
 with open('fashion_mnist_cnn_noise_adam.json', 'w') as f:
     json.dump(history.history, f)
 
-plot_model(model, to_file='fashion_mnist_cnn_architecture.png')
+# plot_model(model, to_file='fashion_mnist_cnn_architecture.png')

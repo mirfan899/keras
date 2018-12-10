@@ -26,6 +26,33 @@ epochs = 100
 # input image dimensions
 img_rows, img_cols = 28, 28
 
+hidden_layers = ["second", "third"]
+
+
+class Guassian(keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+
+        for hidden_layer in hidden_layers:
+            params = self.model.get_layer(hidden_layer).get_weights()
+
+            weights = params[0]
+            biases = params[1]
+
+            weight_signs = numpy.sign(weights)
+            bias_signs = numpy.sign(biases)
+
+            weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.0001
+            weight_noise = weight_noise * weight_signs
+            weight_noise = numpy.add(weight_noise, weights)
+            params[0] = weight_noise
+
+            bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.0001
+            bias_noise = bias_noise * bias_signs
+            bias_noise = numpy.add(bias_noise, biases)
+            params[1] = bias_noise
+
+            self.model.get_layer(hidden_layer).set_weights(params)
+
 
 # the data, split between train and test sets
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -69,28 +96,29 @@ model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss=keras.losses.categorical_crossentropy,
-              optimizer="nadam",
+              optimizer="adam",
               metrics=['accuracy'])
 
+guassian_noise = Guassian()
 history = model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
+          callbacks=[guassian_noise],
           validation_data=(x_test, y_test))
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
-#
+
 # plt.plot(history.history['acc'])
 # plt.plot(history.history['val_acc'])
 # plt.title('Model accuracy')
 # plt.ylabel('Accuracy')
 # plt.xlabel('Epoch')
 # plt.legend(['Train', 'Test'], loc='upper left')
-# plt.savefig('fashion_mnist_cnn_no_noise_adam.png')
+# plt.savefig('fashion_mnist_cnn_noise_adam.png')
 print(history.history)
-
-with open('fashion_mnist_cnn_no_noise_adam.json', 'w') as f:
+with open('fashion_mnist_cnn_noise_adam.json', 'w') as f:
     json.dump(history.history, f)
 
 # plot_model(model, to_file='fashion_mnist_cnn_architecture.png')
