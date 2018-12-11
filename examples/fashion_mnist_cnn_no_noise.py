@@ -10,14 +10,11 @@ from __future__ import print_function
 import json
 
 import keras
-from keras.datasets import fashion_mnist
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Activation
-from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
-from keras.utils import plot_model
-import matplotlib.pyplot as plt
-import numpy
+from keras.datasets import fashion_mnist
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten
+from keras.models import Sequential
 
 batch_size = 128
 num_classes = 10
@@ -25,7 +22,6 @@ epochs = 100
 
 # input image dimensions
 img_rows, img_cols = 28, 28
-
 
 # the data, split between train and test sets
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -73,10 +69,10 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
 history = model.fit(x_train, y_train,
-          batch_size=batch_size,
-          epochs=epochs,
-          verbose=1,
-          validation_data=(x_test, y_test))
+                    batch_size=batch_size,
+                    epochs=epochs,
+                    verbose=1,
+                    validation_data=(x_test, y_test))
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
