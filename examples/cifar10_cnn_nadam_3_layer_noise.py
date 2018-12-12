@@ -64,15 +64,15 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
-model.add(Conv2D(64, (2, 2), padding='same',
+model.add(Conv2D(32, (2, 2), padding='same',
                  input_shape=x_train.shape[1:], name="input_layer"))
 model.add(Activation('relu'))
-model.add(Conv2D(512, (2, 2), name="second"))
+model.add(Conv2D(128, (2, 2), name="second"))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(1, 1)))
 model.add(Dropout(0.2))
 
-model.add(Conv2D(512, (2, 2), padding='same', name="third"))
+model.add(Conv2D(128, (2, 2), padding='same', name="third"))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
