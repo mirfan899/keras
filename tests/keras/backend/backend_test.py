@@ -1077,6 +1077,7 @@ class TestBackend(object):
                                       max_value=max_value, threshold=threshold)
 
     def test_nn_operations(self):
+        check_single_tensor_operation('softsign', (4, 10), WITH_NP)
         check_single_tensor_operation('softplus', (4, 10), WITH_NP)
         check_single_tensor_operation('elu', (4, 10), WITH_NP, alpha=0.5)
 
@@ -1732,6 +1733,24 @@ class TestBackend(object):
         assert np.allclose(log_prob_pred_np, log_prob_pred)
 
     @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='tensorflow-way slice is '
+                        'only supported in tensorflow.')
+    @pytest.mark.parametrize('x_size', [
+        [1, 1, 3],
+        [1, 2, 3],
+        [2, 1, 3]
+    ])
+    def test_slice(self, x_size):
+        npt = np.array([[[1, 1, 1], [2, 2, 2]],
+                       [[3, 3, 3], [4, 4, 4]],
+                       [[5, 5, 5], [6, 6, 6]]])
+        x_start = [1, 0, 0]
+        tft = K.constant(npt)
+        test_input = K.eval(K.slice(tft, x_start, x_size))
+        expected = KNP.slice(npt, x_start, x_size)
+        assert np.allclose(test_input, expected)
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
                         reason='Beam search is only implemented with '
                                'the TensorFlow backend.')
     def test_ctc_decode_beam_search(self):
@@ -1843,6 +1862,22 @@ class TestBackend(object):
 
         assert k_s_d.shape == k_d.shape
         assert_allclose(k_s_d, k_d, atol=1e-05)
+
+    def test_stack(self):
+        tensor_list = [np.random.randn(5, 4, 6, 10) for _ in range(5)]
+        stack_axis = 3
+        results = []
+        if WITH_NP[0] == KC:
+            check_two_tensor_operation('stack', (5, 4, 6, 10),
+                                       (5, 4, 6, 10), WITH_NP,
+                                       axis=stack_axis, concat_args=True)
+        else:
+            for k in WITH_NP:
+                tensor_list_var = [k.variable(tensor) for tensor in tensor_list]
+                out = k.eval(k.stack(tensor_list_var, axis=stack_axis))
+                results.append(out)
+
+            assert_list_pairwise(results)
 
     @pytest.mark.skipif(K.backend() == 'cntk', reason='Not supported.')
     def test_map(self):

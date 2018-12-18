@@ -285,6 +285,10 @@ def softplus(x):
     return np.log(1. + np.exp(x))
 
 
+def softsign(x):
+    return x / (1 + np.abs(x))
+
+
 def elu(x, alpha=1.):
     return x * (x > 0) + alpha * (np.exp(x) - 1.) * (x < 0)
 
@@ -585,6 +589,14 @@ def reverse(x, axes):
     return np.flip(x, axes)
 
 
+py_slice = slice
+
+
+def slice(x, start, size):
+    slices = [py_slice(i, i + j) for i, j in zip(start, size)]
+    return x[tuple(slices)]
+
+
 def variable(value, dtype=None, name=None, constraint=None):
     if constraint is not None:
         raise TypeError("Constraint must be None when "
@@ -723,6 +735,10 @@ def _remove_repeats(inds):
 
 def _remove_blanks(inds, num_classes):
     return inds[inds < (num_classes - 1)]
+
+
+def stack(x, axis=0):
+    return np.stack(x, axis=axis)
 
 
 square = np.square

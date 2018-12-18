@@ -2510,6 +2510,8 @@ def stack(x, axis=0):
 
     # Returns
         A tensor.
+
+    {{np_implementation}}
     """
     return tf.stack(x, axis=axis)
 
@@ -2564,6 +2566,8 @@ def slice(x, start, size):
         ```python
         new_x = x[start[0]: start[0] + size[0], ..., start[-1]: start[-1] + size[-1]]
         ```
+
+    {{np_implementation}}
     """
     return tf.slice(x, start, size)
 
@@ -3445,6 +3449,8 @@ def softsign(x):
 
     # Returns
         A tensor.
+
+    {{np_implementation}}
     """
     return tf.nn.softsign(x)
 
