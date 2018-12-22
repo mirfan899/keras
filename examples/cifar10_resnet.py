@@ -423,6 +423,7 @@ else:
     model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch_size),
                         validation_data=(x_test, y_test),
                         epochs=epochs, verbose=1, workers=4,
+                        steps_per_epoch=len(x_train) / batch_size,
                         callbacks=callbacks)
 
 # Score trained model.
