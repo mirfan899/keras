@@ -42,7 +42,9 @@ model.add(Dense(1, activation='sigmoid'))
 model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
 
 print('Train...')
-model.fit(x_train, y_train,
+history = model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=4,
-          validation_data=[x_test, y_test])
+          validation_data=[x_test[:5000], y_test[:5000]])
+
+print(history.history)
