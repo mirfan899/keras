@@ -44,7 +44,7 @@ model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
 print('Train...')
 history = model.fit(x_train, y_train,
           batch_size=batch_size,
-          epochs=15,
+          epochs=10,
           validation_data=[x_test[:5000], y_test[:5000]])
 
 print(history.history)
