@@ -38,7 +38,7 @@ print('x_test shape:', x_test.shape)
 
 print('Build model...')
 model = Sequential()
-model.add(Embedding(max_features, 64), maxlen=maxlen)
+model.add(Embedding(max_features, 64, input_length=maxlen))
 model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
 model.add(Dense(1, activation='sigmoid'))
 
