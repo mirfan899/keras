@@ -34,7 +34,7 @@ class GaussianNoise(keras.callbacks.Callback):
 max_features = 20000
 # cut texts after this number of words
 # (among top max_features most common words)
-maxlen = 100
+maxlen = 500
 batch_size = 32
 
 print('Loading data...')
