@@ -33,8 +33,8 @@ y_train = np.array(y_train)
 y_test = np.array(y_test)
 
 model = Sequential()
-model.add(Embedding(max_features, 128, input_length=maxlen))
-model.add(Bidirectional(LSTM(64)))
+model.add(Embedding(max_features, 64, input_length=maxlen))
+model.add(Bidirectional(LSTM(128)))
 model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 

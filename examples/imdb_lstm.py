@@ -20,9 +20,9 @@ from keras.layers import Dense, Embedding
 from keras.layers import LSTM
 from keras.datasets import imdb
 
-max_features = 20000
+max_features = 5000
 # cut texts after this number of words (among top max_features most common words)
-maxlen = 80
+maxlen = 500
 batch_size = 32
 
 print('Loading data...')
@@ -38,7 +38,7 @@ print('x_test shape:', x_test.shape)
 
 print('Build model...')
 model = Sequential()
-model.add(Embedding(max_features, 128))
+model.add(Embedding(max_features, 64), maxlen=maxlen)
 model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
 model.add(Dense(1, activation='sigmoid'))
 
