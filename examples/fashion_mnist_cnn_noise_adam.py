@@ -27,7 +27,7 @@ img_rows, img_cols = 28, 28
 hidden_layers = ["second", "third"]
 
 
-class Guassian(keras.callbacks.Callback):
+class Gaussian(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
         for hidden_layer in hidden_layers:
             params = self.model.get_layer(hidden_layer).get_weights()
@@ -96,12 +96,12 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer="adam",
               metrics=['accuracy'])
 
-guassian_noise = Guassian()
+gaussian_noise = Gaussian()
 history = model.fit(x_train, y_train,
                     batch_size=batch_size,
                     epochs=epochs,
                     verbose=1,
-                    callbacks=[guassian_noise],
+                    callbacks=[gaussian_noise],
                     validation_data=(x_test, y_test))
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
