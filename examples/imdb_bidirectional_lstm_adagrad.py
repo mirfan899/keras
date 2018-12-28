@@ -39,7 +39,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 # try using different optimizers and different optimizer configs
-model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
+model.compile('adagrad', 'binary_crossentropy', metrics=['accuracy'])
 
 print('Train...')
 history = model.fit(x_train, y_train,
