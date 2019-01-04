@@ -23,11 +23,21 @@ class GaussianNoise(keras.callbacks.Callback):
         hidden_layer = self.model.layers[1]
         params = hidden_layer.get_weights()
         weights = params[0]
-        signs = numpy.sign(weights)
-        guassian_noise = numpy.random.uniform(0, 1, weights.shape) * 0.001
-        guassian_noise = guassian_noise * signs
-        guassain_weights = numpy.add(weights, guassian_noise)
-        params[0] = guassain_weights
+        biases = params[1]
+
+        weight_signs = numpy.sign(weights)
+        bias_signs = numpy.sign(biases)
+
+        weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.001
+        weight_noise = weight_noise * weight_signs
+        weight_noise = numpy.add(weight_noise, weights)
+        params[0] = weight_noise
+
+        bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.001
+        bias_noise = bias_noise * bias_signs
+        bias_noise = numpy.add(bias_noise, biases)
+        params[1] = bias_noise
+
         hidden_layer.set_weights(params)
 
 
