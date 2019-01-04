@@ -68,6 +68,12 @@ history = model.fit(x_train, y_train,
                     validation_split=0.2)
 
 model.summary()
+score, acc = model.evaluate(x_test, y_test,
+                            batch_size=batch_size)
+print(history.history)
+print('Test score:', score)
+print('Test accuracy:', acc)
+
 # Plot training & validation accuracy values
 # plt.plot(history.history['acc'])
 # plt.plot(history.history['val_acc'])
