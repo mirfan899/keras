@@ -26,7 +26,7 @@ from keras.preprocessing import sequence
 from keras.utils import plot_model
 
 
-class Guassian(keras.callbacks.Callback):
+class Gaussian(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
         hidden_layers = self.model.layers[1:-1]
 
@@ -38,12 +38,12 @@ class Guassian(keras.callbacks.Callback):
             weight_signs = numpy.sign(weights)
             bias_signs = numpy.sign(biases)
 
-            weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.0001
+            weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.001
             weight_noise = weight_noise * weight_signs
             weight_noise = numpy.add(weight_noise, weights)
             params[0] = weight_noise
 
-            bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.0001
+            bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.001
             bias_noise = bias_noise * bias_signs
             bias_noise = numpy.add(bias_noise, biases)
             params[1] = bias_noise
@@ -82,7 +82,7 @@ model.compile(loss='binary_crossentropy',
 
 print('Train...')
 
-guassian_noise = Guassian()
+guassian_noise = Gaussian()
 history = model.fit(x_train, y_train,
                     batch_size=batch_size,
                     epochs=10,
