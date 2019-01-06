@@ -28,12 +28,12 @@ class GaussianNoise(keras.callbacks.Callback):
         weight_signs = numpy.sign(weights)
         bias_signs = numpy.sign(biases)
 
-        weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.001
+        weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.0001
         weight_noise = weight_noise * weight_signs
         weight_noise = numpy.add(weight_noise, weights)
         params[0] = weight_noise
 
-        bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.001
+        bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.0001
         bias_noise = bias_noise * bias_signs
         bias_noise = numpy.add(bias_noise, biases)
         params[1] = bias_noise
@@ -74,7 +74,7 @@ print('Train...')
 history = model.fit(x_train, y_train,
                     batch_size=batch_size,
                     epochs=10,
-                    validation_data=(x_test[:5000], y_test[:5000]))
+                    validation_data=(x_train[:5000], y_train[:5000]))
 
 model.summary()
 score, acc = model.evaluate(x_test, y_test,

@@ -45,7 +45,7 @@ print('Train...')
 history = model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=10,
-          validation_data=[x_test[:5000], y_test[:5000]])
+          validation_data=[x_train[:5000], y_train[:5000]])
 
 print(history.history)
 
