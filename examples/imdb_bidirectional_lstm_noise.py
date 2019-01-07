@@ -69,7 +69,7 @@ model.add(Dense(1, activation='sigmoid'))
 gaussian_callback = GaussianNoise()
 adam = optimizers.adam(lr=0.0001)
 # try using different optimizers and different optimizer configs
-model.compile('binary_crossentropy', metrics=['accuracy'], optimizer=adam)
+model.compile(loss='binary_crossentropy', metrics=['accuracy'], optimizer=adam)
 
 print('Train...')
 history = model.fit(x_train, y_train,
