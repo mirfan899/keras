@@ -7,6 +7,8 @@ Time per epoch on CPU (Core i7): ~150s.
 from __future__ import print_function
 
 import json
+from keras import optimizers
+
 import keras
 import matplotlib.pyplot as plt
 import numpy
@@ -65,8 +67,9 @@ model.add(Dropout(0.2))
 model.add(Dense(1, activation='sigmoid'))
 
 gaussian_callback = GaussianNoise()
+adam = optimizers.adam(lr=0.0001)
 # try using different optimizers and different optimizer configs
-model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
+model.compile('binary_crossentropy', metrics=['accuracy'], optimizer=adam)
 
 print('Train...')
 history = model.fit(x_train, y_train,

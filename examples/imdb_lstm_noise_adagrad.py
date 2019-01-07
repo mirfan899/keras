@@ -15,6 +15,8 @@ from what you see with CNNs/MLPs/etc.
 from __future__ import print_function
 
 import json
+from keras import optimizers
+
 import keras
 import matplotlib.pyplot as plt
 import numpy
@@ -75,9 +77,10 @@ model.add(Embedding(max_features, 64, input_length=maxlen))
 model.add(LSTM(128))
 model.add(Dense(1, activation='sigmoid'))
 
+adagrad = optimizers.adagrad(lr=0.0001)
 # try using different optimizers and different optimizer configs
 model.compile(loss='binary_crossentropy',
-              optimizer='adagrad',
+              optimizer=adagrad,
               metrics=['accuracy'])
 
 print('Train...')

@@ -15,7 +15,7 @@ from keras.datasets import imdb
 from keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional
 from keras.models import Sequential
 from keras.preprocessing import sequence
-
+from keras import optimizers
 
 class GaussianNoise(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
@@ -28,12 +28,12 @@ class GaussianNoise(keras.callbacks.Callback):
         weight_signs = numpy.sign(weights)
         bias_signs = numpy.sign(biases)
 
-        weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.00001
+        weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.0001
         weight_noise = weight_noise * weight_signs
         weight_noise = numpy.add(weight_noise, weights)
         params[0] = weight_noise
 
-        bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.00001
+        bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.0001
         bias_noise = bias_noise * bias_signs
         bias_noise = numpy.add(bias_noise, biases)
         params[1] = bias_noise
@@ -68,7 +68,9 @@ model.add(Dense(1, activation='sigmoid'))
 
 gaussian_callback = GaussianNoise()
 # try using different optimizers and different optimizer configs
-model.compile('adagrad', 'binary_crossentropy', metrics=['accuracy'])
+
+adagrad = optimizers.adagrad(lr=0.0001)
+model.compile(loss='binary_crossentropy', optimizer=adagrad,  metrics=['accuracy'])
 
 print('Train...')
 history = model.fit(x_train, y_train,
