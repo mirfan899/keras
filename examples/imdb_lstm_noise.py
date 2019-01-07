@@ -77,10 +77,10 @@ model.add(Embedding(max_features, 64, input_length=maxlen))
 model.add(LSTM(128))
 model.add(Dense(1, activation='sigmoid'))
 
-adam = optimizers.adam(lr=0.0001)
+# adam = optimizers.adam(lr=0.0001)
 # try using different optimizers and different optimizer configs
 model.compile(loss='binary_crossentropy',
-              optimizer=adam,
+              optimizer="adam",
               metrics=['accuracy'])
 
 print('Train...')
