@@ -29,7 +29,7 @@ from keras.utils import plot_model
 
 
 class Gaussian(keras.callbacks.Callback):
-    def on_epoch_end(self, epoch, logs=None):
+    def on_epoch_begin(self, epoch, logs=None):
         hidden_layers = self.model.layers[1:-1]
 
         for hidden_layer in hidden_layers:
@@ -37,25 +37,25 @@ class Gaussian(keras.callbacks.Callback):
             weights = params[0]
             biases = params[1]
 
-            # weight_signs = numpy.sign(weights)
-            # bias_signs = numpy.sign(biases)
+            weight_signs = numpy.sign(weights)
+            bias_signs = numpy.sign(biases)
 
             weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.0001
-            # weight_noise = weight_noise * weight_signs
+            weight_noise = weight_noise * weight_signs
             weight_noise = numpy.add(weight_noise, weights)
             params[0] = weight_noise
 
             bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.0001
-            # bias_noise = bias_noise * bias_signs
+            bias_noise = bias_noise * bias_signs
             bias_noise = numpy.add(bias_noise, biases)
             params[1] = bias_noise
 
             hidden_layer.set_weights(params)
 
 
-max_features = 5000
+max_features = 20000
 # cut texts after this number of words (among top max_features most common words)
-maxlen = 500
+maxlen = 80
 batch_size = 32
 
 print('Loading data...')

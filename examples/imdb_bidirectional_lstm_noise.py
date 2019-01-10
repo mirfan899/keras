@@ -20,22 +20,22 @@ from keras.preprocessing import sequence
 
 
 class GaussianNoise(keras.callbacks.Callback):
-    def on_epoch_end(self, epoch, logs={}):
+    def on_epoch_begin(self, epoch, logs=None):
         hidden_layer = self.model.layers[1]
         params = hidden_layer.get_weights()
         weights = params[0]
         biases = params[1]
 
-        # weight_signs = numpy.sign(weights)
-        # bias_signs = numpy.sign(biases)
+        weight_signs = numpy.sign(weights)
+        bias_signs = numpy.sign(biases)
 
         weight_noise = numpy.random.uniform(0, 1, weights.shape) * 0.0001
-        # weight_noise = weight_noise * weight_signs
+        weight_noise = weight_noise * weight_signs
         weight_noise = numpy.add(weight_noise, weights)
         params[0] = weight_noise
 
         bias_noise = numpy.random.uniform(0, 1, biases.shape) * 0.0001
-        # bias_noise = bias_noise * bias_signs
+        bias_noise = bias_noise * bias_signs
         bias_noise = numpy.add(bias_noise, biases)
         params[1] = bias_noise
 

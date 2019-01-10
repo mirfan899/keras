@@ -53,9 +53,9 @@ class Gaussian(keras.callbacks.Callback):
             hidden_layer.set_weights(params)
 
 
-max_features = 5000
+max_features = 20000
 # cut texts after this number of words (among top max_features most common words)
-maxlen = 500
+maxlen = 80
 batch_size = 32
 
 print('Loading data...')
